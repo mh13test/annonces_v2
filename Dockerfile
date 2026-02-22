@@ -4,5 +4,8 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY smoke.py .
-CMD ["python", "smoke.py"]
+COPY app.py .
+
+# Railway expose souvent $PORT
+ENV PORT=8000
+CMD ["bash", "-lc", "uvicorn app:app --host 0.0.0.0 --port ${PORT}"]
